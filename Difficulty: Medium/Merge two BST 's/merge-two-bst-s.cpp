@@ -94,52 +94,44 @@ struct Node {
 */
 class Solution {
   public:
-    void inorder(Node*root, vector<int> &ans){
-        if(!root) return;
-        inorder(root->left,ans);
-        ans.push_back(root->data);
-        inorder(root->right,ans);
+    void solve(Node* &root, vector<int>& arr){
+        if (!root) return ;
+        solve(root->left, arr);
+        arr.push_back(root->data);
+        solve(root->right, arr);
     }
- void merge(vector<int> & ans1,vector<int> & ans2,vector<int> & ans){
-        int i =0;
-        int j=0;
-        while(i<ans1.size() and j<ans2.size()){
-            if(ans1[i]==ans2[j]){
-                ans.push_back(ans1[i]);
-                ans.push_back(ans2[j]);
+    vector<int> merge(Node *root1, Node *root2) {
+        vector<int>n1,n2,mg;
+        solve(root1, n1);
+        solve(root2, n2);
+        int i=0, j=0;
+        int n = n1.size(),m = n2.size();
+        while (i < n && j < m){
+            if (n1[i] < n2[j]){
+                mg.push_back(n1[i]);
                 i++;
-                j++;
             }
-            else if(ans1[i]<ans2[j]){
-                ans.push_back(ans1[i]);
-                i++;
+            else if (n1[i] > n2[j]){
+                mg.push_back(n2[j]);
+                j++;
             }
             else{
-                ans.push_back(ans2[j]);
+                mg.push_back(n2[j]);
+                mg.push_back(n1[i]);
+                i++;
                 j++;
             }
         }
-        
-        while(i<ans1.size()){
-            ans.push_back(ans1[i]);
+        while (i < n){
+            mg.push_back(n1[i]);
             i++;
         }
-        while(j<ans2.size()){
-            ans.push_back(ans2[j]);
+        while (j < m){
+            mg.push_back(n2[j]);
             j++;
         }
-    
- }
-    vector<int> merge(Node *root1, Node *root2) {
-        // Your code here
-      
-        vector<int> ans1,ans2;
-        inorder(root1,ans1);
-        inorder(root2,ans2);
-        vector<int> ans;
-        merge(ans1,ans2,ans);
         
-    return ans;
+        return mg;
     }
 };
 
