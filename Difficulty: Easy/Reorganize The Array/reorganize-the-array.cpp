@@ -7,23 +7,16 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<int> rearrange(const vector<int>& arr) {
-        // Code here
-   
-        int n = arr.size();
-        
-        vector<int> v(n,-1);
-        
-        for(int i=0;i<n;i++)
-        {
-            if(arr[i]>=0)
-            {
-                int k = arr[i];
-                v[k]=k;
+    vector<int> rearrange(vector<int>& arr) {
+        // Loop through the array
+        for (int i = 0; i < arr.size(); i++) {
+            // Continue swapping until the current element is in the right place or it is -1
+            while (arr[i] != i && arr[i] != -1) {
+                swap(arr[i], arr[arr[i]]);
             }
         }
-        
-        return v;     
+        //returning the modified array
+        return arr;
     }
 };
 
@@ -49,6 +42,7 @@ int main() {
         for (int i = 0; i < ans.size(); i++)
             cout << ans[i] << " ";
         cout << endl;
+        cout << "~" << endl;
     }
 
     return 0;
