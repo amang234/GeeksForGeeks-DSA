@@ -7,30 +7,22 @@ using namespace std;
 class Solution {
   public:
     void sort012(vector<int>& arr) {
-        // code here
-        int ones = 0, zeros = 0, twos = 0;
-        int i = 0;
-        for(auto it: arr){
-            if(it==0){
-                zeros++;
+        int z=0,o=0,h=arr.size()-1;
+        int i=0;
+        while(o<=h)
+        {
+            if(arr[o]==0)
+             {
+                 swap(arr[o],arr[z]);
+                 z++;
+                 o++; 
+             }
+            else if( arr[o]==1)
+            o++;
+            else if(arr[o]==2){
+                swap(arr[o],arr[h]);
+                h--;
             }
-            else if(it == 1){
-                ones++;
-            }
-            else{
-                twos++;
-            }
-            arr[i] = 2;
-            i++;
-        }
-        i = 0;
-        while(zeros--){
-            arr[i] = 0;
-            i++;
-        }
-        while(ones--){
-            arr[i] = 1;
-            i++;
         }
     }
 };
@@ -61,6 +53,7 @@ int main() {
         }
 
         cout << endl;
+        cout << "~" << endl;
     }
     return 0;
 }
