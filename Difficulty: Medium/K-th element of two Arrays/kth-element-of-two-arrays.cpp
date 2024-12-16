@@ -6,33 +6,32 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int kthElement(int k, vector<int>& arr1, vector<int>& arr2) {
-        int i=0,j=0,t=0;
-        int l1=arr1.size(),l2=arr2.size();
-        while(i<l1  && j<l2){
-            
-            if(arr1[i]<=arr2[j]){
-                t++;
-                if(t==k) return arr1[i];
-                i++;
+    int kthElement(vector<int>& a, vector<int>& b, int k) {
+        int lptr = 0;
+        int rptr = 0;
+        int t1 = a.size();
+        int t2 = b.size();
+        int kele;
+        while(lptr < t1 or rptr < t2){
+            if(lptr == t1){
+                return b[k-lptr-1];
+            }
+            else if(rptr == t2){
+                return a[k-rptr-1];
+            }
+            else if(a[lptr] <= b[rptr]){
+                kele = a[lptr];
+                lptr++;
             }
             else{
-                t++;
-                if(t==k) return arr2[j];
-                j++;
+                kele = b[rptr];
+                rptr++;
+            }
+            if(lptr + rptr == k){
+                return kele;
             }
         }
-        while(i<l1){
-            t++;
-            if(t==k) return arr1[i];
-            i++;
-        }
-        while(j<l2){
-            t++;
-            if(t==k) return arr2[j];
-            j++;
-        }
-
+        return kele;
     }
 };
 
@@ -49,22 +48,22 @@ int main() {
         cin.ignore();
         string input;
         int num;
-        vector<int> arr1, arr2;
+        vector<int> a, b;
 
         getline(cin, input);
         stringstream s2(input);
         while (s2 >> num) {
-            arr1.push_back(num);
+            a.push_back(num);
         }
 
         getline(cin, input);
         stringstream s3(input);
         while (s3 >> num) {
-            arr2.push_back(num);
+            b.push_back(num);
         }
 
         Solution ob;
-        cout << ob.kthElement(k, arr1, arr2) << endl;
+        cout << ob.kthElement(a, b, k) << endl << "~\n";
     }
     return 0;
 }
