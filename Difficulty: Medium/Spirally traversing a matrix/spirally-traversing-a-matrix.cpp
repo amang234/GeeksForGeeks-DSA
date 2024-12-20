@@ -6,19 +6,67 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<int> spirallyTraverse(vector<vector<int> > &matrix) {
-        int n = matrix.size(), m = matrix[0].size();
-        int dxy[4][2] = {{0,1},{1,0},{0,-1},{-1,0}};
-        bool vis[n+1][m+1]; memset(vis,false,sizeof(vis));
-        vector<int> res;
-        int i = 0, j = 0, k = 0;
-        while ( true ){
-            res.push_back(matrix[i][j]); vis[i][j] = true;
-            if ( res.size() == n*m ) break;
-            int ni = i + dxy[k%4][0], nj = j + dxy[k%4][1];
-            if ( !(ni >= 0 && ni < n && nj >= 0 && nj < m && !vis[ni][nj]) ) k++;
-            i += dxy[k%4][0]; j += dxy[k%4][1];
-        } return res;
+    vector<int> spirallyTraverse(vector<vector<int> > &mat) {
+       int n = mat.size();
+       int m = mat[0].size();
+       int i = 0,j = 0;
+       int sti = 0,stj = 0;
+       vector<int>ans;
+       if(n ==  1|| m == 1)
+       {
+           for(int p = 0;p<n;p++)
+           {
+               for(int q = 0; q <m;q++)
+               {
+                   ans.push_back(mat[p][q]);
+               }
+           }
+           return ans;
+       }
+       int inci = 0,incj = 1;
+       for(int l = 0 ;l < mat.size()*mat[0].size();l++)
+       {
+           ans.push_back(mat[i][j]);
+           i += inci;
+           j += incj;
+           if(j == m)
+           {
+               incj = 0;
+               inci = 1;
+               sti++;
+               i = sti;
+               j = m-1;
+               
+           }
+           else if(i == n)
+           {
+               incj = -1;
+               inci = 0;
+               m--;
+               j = m-1;
+               i = n-1;
+              
+               
+           }
+           else if(j == stj - 1)
+           {
+               j = stj;
+               n--;
+               i = n-1;
+               incj = 0;
+               inci = -1;
+               
+           }
+           else if(i == sti-1)
+           {
+               i = sti;
+               stj++;
+               j = stj;
+               incj = 1;
+               inci = 0;
+           }
+       }
+       return ans;
     }
 };
 
@@ -30,9 +78,10 @@ int main() {
     while (t--) {
         int r, c;
         cin >> r >> c;
-        vector<vector<int>> matrix(r, vector<int>(c, 0));
+        vector<vector<int>> matrix(r);
 
         for (int i = 0; i < r; i++) {
+            matrix[i].assign(c, 0);
             for (int j = 0; j < c; j++) {
                 cin >> matrix[i][j];
             }
@@ -43,6 +92,9 @@ int main() {
         for (int i = 0; i < result.size(); ++i)
             cout << result[i] << " ";
         cout << endl;
+
+        cout << "~"
+             << "\n";
     }
     return 0;
 }
