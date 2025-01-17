@@ -1,6 +1,4 @@
 //{ Driver Code Starts
-// Initial template for C++
-
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -10,45 +8,57 @@ using namespace std;
 
 class Solution {
   public:
-    vector<long long int> productExceptSelf(vector<long long int>& nums) {
-
-         vector<long long int> ans(nums.size());
-         ans[0] = 1;
-         long long int prod = 1;
-         for(int i=1;i<nums.size();i++){
-             ans[i] =  nums[i-1] * ans[i-1];
-         }
-         for(int i=nums.size()-2;i>=0;i--){
-             prod *= nums[i+1];
-             ans[i] *= prod;
-         }
-         return ans;
+    vector<int> productExceptSelf(vector<int>& arr) {
+        int n = arr.size();
+        vector<int> ans(n, 1);
+        
+        int prefixProd = 1;
+        for (int i = 0; i < n; i++) {
+            ans[i] = prefixProd;  
+            prefixProd *= arr[i];  
+        }
+        
+        int suffixProd = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            ans[i] *= suffixProd;  
+            suffixProd *= arr[i];  
+        }
+        
+        return ans;
     }
 };
 
 
 //{ Driver Code Starts.
+
 int main() {
-    int t; // number of test cases
+
+    int t;
     cin >> t;
+    cin.ignore();
+
     while (t--) {
-        int n; // size of the array
-        cin >> n;
-        vector<long long int> arr(n), vec(n);
+        vector<int> arr;
+        string input;
+        getline(cin, input);
+        stringstream ss(input);
+        int number;
 
-        for (int i = 0; i < n; i++) // input the array
-        {
-            cin >> arr[i];
+        while (ss >> number) {
+            arr.push_back(number);
         }
-        Solution obj;
-        vec = obj.productExceptSelf(arr); // function call
 
-        for (int i = 0; i < n; i++) // print the output
-        {
-            cout << vec[i] << " ";
+        Solution obj;
+        vector<int> res = obj.productExceptSelf(arr);
+
+        for (int i = 0; i < res.size(); i++) {
+            cout << res[i] << " ";
         }
         cout << endl;
+        cout << "~\n";
     }
+
     return 0;
 }
+
 // } Driver Code Ends
