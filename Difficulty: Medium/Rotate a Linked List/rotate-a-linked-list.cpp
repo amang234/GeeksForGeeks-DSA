@@ -38,32 +38,33 @@ struct Node {
 
 class Solution {
   public:
-    // Function to rotate a linked list.
     Node* rotate(Node* head, int k) {
         // Your code here
-        vector<int>ans;
-        while(head != NULL){
-            ans.push_back(head->data);
-            head = head->next;
+        int n=0;
+        Node *temp=head;
+        while(temp!=NULL){
+            temp=temp->next;
+            n++;
         }
-        if(k == 0)
-            return head;
-        int n = ans.size();
-        k = k%n;
+        k=k%n;
         
-        reverse(ans.begin(),ans.begin()+k);
-        reverse(ans.begin()+k,ans.end());
-        reverse(ans.begin(),ans.end());
-        
-        
-        for(auto it : ans){
-            cout<<it<<" ";
+        Node *front=head;
+        temp=head;
+        while(temp->next!=NULL){
+            temp=temp->next;
+            
         }
         
+        while(k!=0){
+             head=head->next;
+             front->next=NULL;
+             temp->next=front;
+             temp=front;
+             front=head;
+             k--;
+        }
         
         return head;
-    
-        
     }
 };
 
@@ -105,6 +106,7 @@ int main() {
         Solution ob;
         head = ob.rotate(head, k);
         printList(head);
+        cout << "~\n";
     }
     return 1;
 }
