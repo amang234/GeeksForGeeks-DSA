@@ -1,73 +1,31 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-using namespace std;
-
-
-// } Driver Code Ends
-
 class Solution {
   public:
     vector<int> longestSubarray(vector<int>& arr, int x) {
-        int n=arr.size();
-        deque<int> mn,mx;
-        int en=0,st=0;
-        int i=0,j=0;
-        
-        while(j<n){
-            while(!mn.empty() && mn.back()>arr[j]) mn.pop_back();
-            while(!mx.empty() && mx.back()<arr[j]) mx.pop_back();
-            mn.push_back(arr[j]);
-            mx.push_back(arr[j]);
-            
-            if(mx.front()-mn.front()<=x){
-                if((en-st)<(j-i)) {
-                    en=j;
-                    st=i;
-                }
-                j++;
-            } else{ //mx.front()-mn.front()>x
-                if(arr[i]==mx.front()) mx.pop_front();
-                if(arr[i]==mn.front()) mn.pop_front();
-                i++;
-                j++;
+        int n = arr.size();
+        deque<int> maxDq, minDq;
+        int left = 0, bestStart = 0, bestLen = 0;
+    
+        for (int right = 0; right < n; right++) {
+            while (!maxDq.empty() && arr[maxDq.back()] < arr[right]) 
+                maxDq.pop_back();
+            maxDq.push_back(right);
+    
+            while (!minDq.empty() && arr[minDq.back()] > arr[right]) 
+                minDq.pop_back();
+            minDq.push_back(right);
+    
+            while (arr[maxDq.front()] - arr[minDq.front()] > x) {
+                if (maxDq.front() == left) maxDq.pop_front();
+                if (minDq.front() == left) minDq.pop_front();
+                left++;
+            }
+    
+            if (right - left + 1 > bestLen) {
+                bestLen = right - left + 1;
+                bestStart = left;
             }
         }
-        
-        if(en==st) return {arr[0]}; //If multiple such subarrays exist, return the one that starts at the smallest inde
-        vector<int> res;
-        for(int i=st;i<=en;i++) res.push_back(arr[i]);
-        return res;
-        
+    
+        return vector<int>(arr.begin() + bestStart, arr.begin() + bestStart + bestLen);
     }
 };
-
-
-//{ Driver Code Starts.
-int main() {
-    string ts;
-    getline(cin, ts);
-    int t = stoi(ts);
-    while (t--) {
-
-        vector<int> arr;
-        string input;
-        getline(cin, input);
-        stringstream ss(input);
-        int number;
-        while (ss >> number) {
-            arr.push_back(number);
-        }
-        string ks;
-        getline(cin, ks);
-        int k = stoi(ks);
-        Solution ob;
-        vector<int> ans = ob.longestSubarray(arr, k);
-        for (auto it : ans) {
-            cout << it << " ";
-        }
-        cout << endl;
-        cout << "~" << endl;
-    }
-    return 0;
-}
-// } Driver Code Ends
